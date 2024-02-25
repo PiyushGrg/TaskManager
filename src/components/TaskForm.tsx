@@ -1,0 +1,90 @@
+import { taskInterface } from '@/interfaces';
+import React from 'react'
+import { useRouter } from 'next/navigation';
+
+
+function TaskForm({task,setTask,onSave}:{task:taskInterface,setTask:any,onSave:any}) {
+
+    const router = useRouter();
+
+    const isSaveDisabled = ()=>{
+        return (
+            task.title === "" ||
+            task.description === "" ||
+            task.dateToStart === "" ||
+            task.dateToFinish === ""
+        );
+    }
+
+  return (
+    <div className='grid grid-cols-3 mt-3 gap-5'>
+        <div className='col-span-3 flex flex-col'>
+            <label htmlFor='title'>Title</label>
+            <input type='text' value={task.title} 
+                onChange={(e)=> setTask({...task,title:e.target.value})}/>
+        </div>
+
+        <div className='col-span-3 flex flex-col'>
+            <label htmlFor='description'>Description</label>
+            <textarea value={task.description} 
+                onChange={(e)=> setTask({...task,description:e.target.value})}/>
+        </div>
+
+        <div className='col-span-3 flex flex-col'>
+            <label htmlFor='reference'>Reference</label>
+            <input type='text' value={task.reference} 
+                onChange={(e)=> setTask({...task,reference:e.target.value})}/>
+        </div>
+
+        <div className='flex flex-col lg:col-span-1 col-span-3'>
+            <label htmlFor='status'>Status</label>
+            <select value={task.status} 
+                onChange={(e)=> setTask({...task,status:e.target.value})}>
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+
+        <div className='flex flex-col lg:col-span-1 col-span-3'>
+            <label htmlFor='category'>Category</label>
+            <select value={task.category} 
+                onChange={(e)=> setTask({...task,category:e.target.value})}>
+                <option value="Work">Work</option>
+                <option value="Hobby">Hobby</option>
+                <option value="Personal">Personal</option>
+                <option value="Others">Others</option>
+            </select>
+        </div>
+
+        <div className='flex flex-col lg:col-span-1 col-span-3'>
+            <label htmlFor='priority'>Priority</label>
+            <select value={task.priority} 
+                onChange={(e)=> setTask({...task,priority:e.target.value})}>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+        </div>
+        
+        <div className='flex flex-col lg:col-span-1 col-span-3'>
+            <label htmlFor='dateToStart'>Date To Start</label>
+            <input type='date' value={task.dateToStart} 
+                onChange={(e)=> setTask({...task,dateToStart:e.target.value})}/>
+        </div>
+
+        <div className='flex flex-col lg:col-span-1 col-span-3'>
+            <label htmlFor='dateToFinish'>Date To Finish</label>
+            <input type='date' value={task.dateToFinish} 
+                onChange={(e)=> setTask({...task,dateToFinish:e.target.value})}/>
+        </div>
+
+        <div className='col-span-3 flex justify-end gap-10'>
+            <button className='btn-outlined' onClick={()=> {router.push("/tasks")}}>Cancel</button>
+            <button className={isSaveDisabled() ? "btn-disabled" : "btn-primary"} onClick={onSave}>Save</button>
+        </div>
+    </div>
+  )
+}
+
+export default TaskForm;
