@@ -16,6 +16,16 @@ export async function POST(request:NextRequest) {
             throw new Error("User already exists!");
         }
 
+        let emailregex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/;
+        if(!emailregex.test(reqBody.email)){
+            throw new Error("Invalid Email!");
+        }
+        
+        let passregex =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/ ;
+        if(!passregex.test(reqBody.password)){
+            throw new Error("Invalid Password Type!");
+        }
+
         //hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(reqBody.password,salt);
